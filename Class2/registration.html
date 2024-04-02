@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form method="POST">
+      <!-- Name -->
+      <div>
+        <label>Name</label>
+        <input type="text" placeholder="Enter fullname" value="Chirag"  name="fullname"/>
+      </div>
+      <!-- Email -->
+      <div>
+        <label>Email</label>
+        <input type="email" placeholder="Enter email id" name="emailid" />
+      </div>
+      <!-- Phone -->
+      <div>
+        <label>Contact</label>
+        <input type="number" placeholder="Enter phone number" name="phone" />
+      </div>
+      <!-- Degree -->
+      <div>
+        <label>Degree</label>
+        <select name="degree">
+          <option>--</option>
+          <option value="id1">BA</option>
+          <option value="id2">BSC</option>
+          <option value="id3">BCOM</option>
+          <option value="id4">BTECH</option>
+        </select>
+      </div>
+      <!-- DOB -->
+      <div>
+        <label>DOB</label>
+        <input type="date" name="dob"/>
+      </div>
+      <!-- Gender -->
+      <div>
+        <span>Gender</span>
+        <div>
+          <label>Male</label>
+          <input type="radio" name="gender" value="M" />
+          <label>Female</label>
+          <input type="radio" name="gender" value="F" />
+          <label>Other</label>
+          <input type="radio" name="gender" value="O" />
+        </div>
+      </div>
+      <!-- Course Slot -->
+      <div>
+        <span>Course Slot</span>
+        <div>
+          <label>Morning</label>
+          <input type="checkbox" value="m" name="slot" />
+          <label>Evening</label>
+          <input type="checkbox" value="e" name="slot"/>
+        </div>
+      </div>
+      <!-- Profile Photo -->
+      <div>
+        <label>Profile Picture</label>
+        <input type="file" accept=".png,.jpeg,.jpg" name="photo"/>
+      </div>
+      <!-- Introduction -->
+      <div>
+        <label>Introduction</label>
+        <textarea name="intro"></textarea>
+      </div>
+      <!-- Submit -->
+      <div>
+        <button>Submit</button>
+      </div>
+    </form>
+  </body>
+</html>
