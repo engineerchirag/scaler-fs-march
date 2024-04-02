@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        /*
+        .detail-list li{
+            color: red;
+        }
+        */
+
+        .detail-list.first > li{
+            color: red;
+        }
+
+        ol#romanOl.list {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>First</li>
+        <li>Second</li>
+        <li>Third</li>
+    </ul>
+
+    <ol class="detail-list first">
+        <li>First</li>
+        <ol type="a">
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+        </ol>
+        <li>Second</li>
+        <li>Third</li>
+    </ol>
+
+    <ol type="a" class="detail-list">
+        <li>First</li>
+        <li>Second</li>
+        <li>Third</li>
+    </ol>
+
+    <ol type="I" id="romanOl" class="list">
+        <li>First</li>
+        <li>Second</li>
+        <li>Third</li>
+    </ol>
+
+    <dl>
+        <dt>Iphone</dt>
+        <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum odit perspiciatis, aliquid quaerat architecto distinctio, quam nesciunt molestias laborum, corporis sed perferendis fuga odio saepe ea adipisci. Natus, nihil rem?</dd>
+        <dt>Macbook</dt>
+        <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum odit perspiciatis, aliquid quaerat architecto distinctio, quam nesciunt molestias laborum, corporis sed perferendis fuga odio saepe ea adipisci. Natus, nihil rem?</dd>
+    </dl>
+</body>
+</html>
