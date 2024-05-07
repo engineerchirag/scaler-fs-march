@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="button1">Click</button>
+    <h1 style="color: red"><span>Some detail here!</span></h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem veritatis
+      labore culpa veniam quidem. Reprehenderit, veniam. Sapiente ad commodi
+      aliquam, tempore exercitationem, delectus nostrum, quasi voluptatem iure
+      possimus deserunt molestias.
+    </p>
+
+    <button class="parlour" id="button2">Style</button>
+    <script>
+        const button1Ref = document.getElementById('button1');
+
+        button1Ref.addEventListener('click', function() {
+            window.alert('Hi');
+        });
+
+        const button2Ref = document.getElementById('button2');
+        button2Ref.addEventListener('click', function() {
+            const h1Ref = document.querySelector('h1');
+            const pRef = document.querySelector('p');
+
+            h1Ref.style.color = 'green';
+            pRef.style.fontSize = '30px';
+
+        })
+
+    </script>
+  </body>
+</html>
