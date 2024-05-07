@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id="username" type="text" placeholder="Enter user your name" />
+    <button id="button">Login</button>
+    <div id="preview"></div>
+
+    <script>
+        const usernameRef = document.getElementById('username');
+
+        usernameRef.addEventListener('keyup', function(e) {
+            console.log(e.target.value);
+            const previewRef = document.getElementById('preview');
+            previewRef.innerText = e.target.value;
+        });
+
+        const buttonRef = document.getElementById('button');
+        buttonRef.addEventListener('click', function() {
+            console.log(usernameRef.value);
+        });
+
+
+    </script>
+</body>
+</html>

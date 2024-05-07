@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <input id="username" type="text" placeholder="Enter user your name" />
+        <input id="password" type="password" placeholder="Enter user your password" />
+        <button id="button">Login</button>
+    </form>
+
+    <script>
+        const usernameRef = document.getElementById('username');
+        const passwordRef = document.getElementById('password');
+
+        const buttonRef = document.getElementById('button');
+        buttonRef.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log({
+                username: usernameRef.value,
+                password: passwordRef.value
+            })
+        });
+
+
+    </script>
+</body>
+</html>
