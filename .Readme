@@ -1,3 +1,4 @@
+git init
 git remote add origin https://github.com/engineerchirag/scaler-fs-march.git
 git branch -M master
 git push -u origin master

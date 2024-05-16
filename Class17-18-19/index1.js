@@ -5,6 +5,8 @@ const newTaskTextAreaRef = document.querySelector('.add-task-modal .left-section
 const prioritySelections = document.querySelectorAll('.add-task-modal .right-section .box');
 const disabledEditButtonRef = document.querySelector('.actions .remove.box');
 const taskWrapperRef = document.querySelector('.task-section');
+const filterBoxesRef = document.querySelectorAll('.filter .box');
+const inputRef = document.querySelector('.search input');
 
 function createTask(title, priority, newTaskId) { 
     const newTaskContent = `
@@ -71,14 +73,14 @@ newTaskTextAreaRef.addEventListener('keyup', function(e) {
 
 prioritySelections.forEach((priorityBoxRef) => {
     priorityBoxRef.addEventListener('click', function(e) {
-        removeSelectedState();
+        removeSelectedState(prioritySelections);
         e.target.classList.add('selected');
     })
 })
 
-function removeSelectedState() {
-    prioritySelections.forEach((priorityBoxRef) => {
-        priorityBoxRef.classList.remove('selected');
+function removeSelectedState(boxesRef) {
+    boxesRef.forEach((boxRef) => {
+        boxRef.classList.remove('selected');
     });
 }
 
@@ -104,3 +106,43 @@ function removeContentEditable() {
         ref.removeAttribute('contenteditable');
     })
 }
+
+filterBoxesRef.forEach(boxRef => {
+    boxRef.addEventListener('click', function(e) {
+        removeSelectedState(filterBoxesRef);
+        e.target.classList.add('selected');
+        const selectedPriority = e.target.dataset.priority;
+        showFilteredTask(selectedPriority);
+    })
+});
+
+function showFilteredTask (selectedPriority) {
+    const taskPrioritiesRef = document.querySelectorAll('.task .task-priority');
+    taskPrioritiesRef.forEach(ref => {
+        const task = ref.closest('.task');
+        if (ref.dataset.priority !== selectedPriority) {
+            task.style.display = 'none';
+        } else {
+            task.style.display = 'flex';
+        }
+    })
+}
+
+function showSearchedTask (searchText) {
+    const tasksRef = document.querySelectorAll('.task');
+    tasksRef.forEach(ref => {
+        const taskId = ref.querySelector('.task-id');
+        const taskName = ref.querySelector('.task-title span');
+        if (taskId.innerText.includes(searchText) || taskName.innerText.includes(searchText)) {
+            ref.style.display = 'flex';
+        } else {
+            ref.style.display = 'none';
+        }
+    })
+}
+
+
+inputRef.addEventListener('keyup', function(e) {
+    const searchText = e.target.value;
+    showSearchedTask(searchText);
+});
