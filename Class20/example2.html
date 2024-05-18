@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            min-width: 200px;
+            min-height: 200px;
+            padding: 10px;
+        }
+
+        .grand-parent {
+            border: 1px solid green;
+        }
+
+        .parent {
+            border: 1px solid blue;
+        }
+
+        .child {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div class="grand-parent">
+        Grand Parent
+        <div class="parent">
+            Parent
+            <div class="child">
+                Child
+            </div>
+        </div>
+    </div>
+    <script>
+        const grandParentRef = document.querySelector('.grand-parent');
+        const parentRef = document.querySelector('.parent');
+        const childRef = document.querySelector('.child');
+
+        grandParentRef.addEventListener('click', function(e) {
+            alert('Grand Parent click');
+        });
+
+        childRef.addEventListener('click', function(e) {
+            e.stopImmediatePropagation();
+            alert('Child Clicked 1');
+        });
+
+        childRef.addEventListener('click', function(e) {
+            alert('Child Clicked 2');
+        });
+
+        childRef.addEventListener('click', function(e) {
+            alert('Child Clicked - capture');
+        }, { capture: true });
+
+        parentRef.addEventListener('click', function(e) {
+            alert('Parent click');
+        });
+
+        document.addEventListener('click', function(e) {
+            alert('Document click');
+        });
+
+        document.addEventListener('click', function(e) {
+            alert('Document click - capture');
+        }, { capture: true });
+
+    </script>
+</body>
+</html>
