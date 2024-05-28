@@ -1,0 +1,71 @@
+<!-- // Manual Enter OTP
+// Autofill OTP (8190) -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .otp-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+        .otp {
+            display: flex;
+            column-gap: 10px;
+        }
+        .otp input {
+            width: 30px;
+            height: 40px;
+            border-radius: 3px;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="otp-wrapper">
+        <h1>OTP</h1>
+        <div class="otp">
+            <input />
+            <input />
+            <input />
+            <input />
+        </div>
+    </div>
+    <script>
+        // Autofill
+        const OTP = '4321';
+
+        let currentInput = document.querySelector('.otp input:first-child');
+
+        OTP.split('').forEach(num => {
+            currentInput.value = num;
+            currentInput = currentInput.nextElementSibling;
+        });
+
+        // Manual input
+
+        const otpRef = document.querySelector('.otp');
+
+        otpRef.addEventListener('keyup', function(e) {
+            if (e.target.value.length > 0) {
+                e.target.nextElementSibling?.focus();
+            }
+        })
+
+        otpRef.addEventListener('keydown', function(e) {
+            if (e.target.value.length === 0) {
+                e.target.previousElementSibling?.focus();
+            }
+        })
+
+    </script>
+</body>
+</html>
+

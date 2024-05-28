@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="counter-wrapper">
+        <h1>Counter</h1>
+        <div>
+            <div><span>Result: </span><span id="result">0</span></div>
+            <div>
+                <span>Increment/Decrement by:</span>
+                <input placeholder="Enter Delta" id="delta" value="1"/>
+            </div>
+            <div>
+                <button id="increment">+</button>
+                <button id="decrement">-</button>
+                <button id="reset">Reset</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Javascript 
+
+        // Data:
+        // - DOM / Ref
+        // - Inmemory / JSON
+
+        let count = 0;
+        let delta = 1;
+
+        // DOM Ref
+        const resultRef = document.getElementById('result');
+        const deltaRef = document.getElementById('delta');
+        const incrementButtonRef = document.getElementById('increment');
+        const decrementButtonRef = document.getElementById('decrement');
+        const resetButtonRef = document.getElementById('reset');
+
+        // Methods
+
+        // increment
+
+        function increment() {
+            count += delta;
+        }
+
+        // decrement
+        function decrement() {
+            count -= delta;
+        }
+
+        // reset 
+        function reset() {
+            count = 0;
+        }
+
+        // updateResult
+        function updateResult() {
+            resultRef.innerText = count;
+        }
+
+        // Add Listener
+
+       function addListeners() {
+            incrementButtonRef.addEventListener('click', function() {
+                increment();
+                updateResult();
+
+            })
+            decrementButtonRef.addEventListener('click', function() {
+                decrement();
+                updateResult();
+            })
+            resetButtonRef.addEventListener('click', function() {
+                reset();
+                updateResult();
+            })
+            deltaRef.addEventListener('change', function(e) {
+                delta = e.target.value ? Number(e.target.value) : e.target.value;
+            })
+       }
+
+       addListeners();
+
+    </script>
+</body>
+</html>
