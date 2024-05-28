@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        input {
+            width: 500px;
+            height: 40px;
+            padding: 5px 15px;
+            border-radius: 5px;
+            border: 1px solid #363636;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <input placeholder="Search Product" />
+    </div>
+    <script>
+       
+
+        function trottle(fn, delay){
+            let flag = true;
+            return function(...args) {
+                if (flag) {
+                    flag = false;
+                    setTimeout(() => {
+                        fn(...args);
+                        flag = true;
+                    }, delay);
+                }
+            }
+        }
+
+        function fn(e) {
+            console.log('Make a API call with: ', e.target.value);
+        }
+
+        const inputTrottleFn = trottle(fn, 300);
+
+        const inputRef = document.querySelector('input');
+
+        inputRef.addEventListener('keyup', inputTrottleFn);
+
+    </script>
+</body>
+</html>

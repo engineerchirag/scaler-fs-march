@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        input {
+            width: 500px;
+            height: 40px;
+            padding: 5px 15px;
+            border-radius: 5px;
+            border: 1px solid #363636;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <input placeholder="Search Product" />
+    </div>
+    <script>
+        function trailingDebounce(fn, delay){
+            let ref;
+            return function(...args) {
+                clearTimeout(ref);
+                ref = setTimeout(() => {
+                    fn(...args);
+                }, delay);
+            }
+        }
+
+        function leadingDebounce(fn, delay){
+            let ref;
+            return function(...args) {
+                if (!ref) {
+                    fn(...args);
+                }
+
+                clearTimeout(ref);
+                ref = setTimeout(() => {
+                    ref = undefined;
+                }, delay);
+            }
+        }
+
+        function debounce(fn, delay){
+            let ref;
+            return function(...args) {
+                if (!ref) {
+                    fn(...args);
+                }
+
+                clearTimeout(ref);
+                ref = setTimeout(() => {
+                    ref = undefined;
+                    fn(...args);
+                }, delay);
+            }
+        }
+
+
+
+        function fn(e) {
+            console.log('Make a API call with: ', e.target.value);
+        }
+
+        const inputDebounceFn = debounce(fn, 2000);
+
+        const inputRef = document.querySelector('input');
+
+        inputRef.addEventListener('keyup', inputDebounceFn);
+
+
+
+
+
+    </script>
+</body>
+</html>
