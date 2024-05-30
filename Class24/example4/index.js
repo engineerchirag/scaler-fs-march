@@ -27,3 +27,4 @@ class Dog extends Animal{
 }
 
 const Dog1 = new Dog('X', 'Tommy');
+
