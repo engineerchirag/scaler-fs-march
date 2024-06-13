@@ -29,10 +29,11 @@ Function.prototype.apply = function(context, argsArray) {
 
 Function.prototype.bind = function(context, ...argsArray) { 
     const fn = this;
-
     return function(...args) {
         return fn.call(context, ...argsArray, ...args);
     }
 }
+
+
 
 

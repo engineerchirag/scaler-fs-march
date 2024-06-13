@@ -27,4 +27,3 @@ class Pengiun extends Bird{
 
 const MyPengiun = new Pengiun('India', 'X', 'Sweetu');
 
-
