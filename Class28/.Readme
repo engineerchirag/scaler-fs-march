@@ -1,0 +1,47 @@
+Agenda:
+
+- Promise
+    - Promise.all
+    - Promise.any
+    - Promise.race
+    - Promise.allSettled
+
+- Polyfills of Promise combinators 
+
+- Recap
+
+Programming:
+    - Sync/Async
+    - Hoisting
+    - Execution Context
+    - Event Loop
+    - Closure
+    - Context (this, call, apply, bind)
+    - Functional Programming (map, filter, reduce)
+    - Prototypes
+    - OOPs Concepts
+    - Promises
+    - ES6 (spread, destructuring, arrow function, default parameter)
+    - Debounce / Throttle
+    - IIFE
+    - Object Descriptors
+
+Development:
+    - DOM (Tree)
+    - CRUD operation
+    - Event listeners
+    - Event bubbling
+    - Event capturing
+    - Event delegation
+    - Fetch
+    - JSON
+    - Storage: Localstorage 
+
+
+Explore:
+    - AnimationFrame (setInterval) - Event Loop
+    - Session Storage, Cookie, IndexedDB
+
+
+
+
