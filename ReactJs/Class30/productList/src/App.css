@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+.counter {
+  display: inline-block;
+  margin-left: 10px;
+}

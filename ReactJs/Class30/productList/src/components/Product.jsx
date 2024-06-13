@@ -1,7 +1,9 @@
-export const Product = ({ name }) => {
+import Counter from "./Counter"
+
+export const Product = ({ name, quantity }) => {
     return (
         <div>
-            {name}
+            {name} <Counter initialCount={quantity}/>
         </div>
     )
 }
