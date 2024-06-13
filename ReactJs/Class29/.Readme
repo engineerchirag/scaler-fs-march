@@ -1,0 +1,14 @@
+Agenda:
+- Prerequisites
+- Fundamentals of React
+- Benefits
+- Create first React App
+- JSX
+- Props
+
+
+// Setup react app using CRA
+
+npx create-react-app helloworld
+cd helloworld
+npm run start

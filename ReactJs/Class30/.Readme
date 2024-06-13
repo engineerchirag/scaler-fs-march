@@ -1,0 +1,26 @@
+Agenda:
+
+- Build (vite)
+- Components
+- Props
+- List
+- Conditional Rendering
+- Events
+- State
+
+
+Build:
+
+CRA (Webpack)
+npx create-react-app product1
+cd product1
+npm install
+npm run start
+
+
+Vite
+npm create vite@latest product2 --template react
+cd product2
+npm install
+npm run dev
+
