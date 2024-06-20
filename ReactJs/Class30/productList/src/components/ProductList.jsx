@@ -20,7 +20,7 @@ const ProductList = () => {
         availability: true,
         quantity: 1,
       };
-      setProducts([...products, newProduct]);
+      setProducts([newProduct, ...products]);
     }
   };
 
