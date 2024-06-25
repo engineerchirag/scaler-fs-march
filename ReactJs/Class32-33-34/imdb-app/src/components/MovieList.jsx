@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Pagination from "./Pagination";
 
 
-const MovieList = () => {
+const MovieList = ({ favourites, onAdd, onDelete }) => {
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
@@ -22,7 +22,7 @@ const MovieList = () => {
     return (
         <div className="movielist-wrapper">
             <div className="movielist-heading">
-                <h1>Trending</h1>
+                <h1>Trending {Object.keys(favourites).length}</h1>
             </div>
             <div className="movielist">
                 {
@@ -31,7 +31,13 @@ const MovieList = () => {
                             <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
                             {/* <a href="/movie-detail"><h2>{movie.original_title}</h2></a> */}
                             <Link to={`/movie-detail/${movie.id}`}><h2>{movie.original_title}</h2></Link>
-                            <button>Add to Favourites</button>
+                            {
+                             favourites[movie.id] ? (
+                                <button onClick={() => onDelete(movie)}>Remove from Favourites</button>
+                             ) : (
+                                 <button onClick={() => onAdd(movie)}>Add to Favourites</button>
+                             ) 
+                            }
                         </div>
                     ))
                 }

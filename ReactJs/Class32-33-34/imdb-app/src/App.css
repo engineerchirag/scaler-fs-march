@@ -95,3 +95,47 @@
 .pagination .page-button.active {
   background-color: #a09f9f;
 }
+
+.favourite-section {
+  display: flex;
+  min-height: 400px;
+}
+
+.favourite-section .left-section {
+    width: 25%;
+    background-color: #9d9d9d;
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+}
+
+.favourite-section .right-section {
+    width: 75%; 
+    background-color: bisque;
+    padding: 15px;
+}
+
+.favourite-section .right-section .table {
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.favourite-section .right-section .table td, .favourite-section .right-section .table th{
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+}
+
+.favourite-section .left-section .genres-section {
+  width: 150px;
+}
+
+.favourite-section .left-section .genres-section .genre {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.favourite-section .left-section .genres-section .genre:hover {
+  background-color: bisque;
+  cursor: pointer;
+}
