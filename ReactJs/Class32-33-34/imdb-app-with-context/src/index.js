@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import FavouriteMovieProvider from './context/FavouriteMovieContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-
+  <FavouriteMovieProvider>
       <App />
+  </FavouriteMovieProvider>
   
 );
 
