@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useState } from "react";
 
 const Pagination = ({ loadMovieByPage }) => {
@@ -7,7 +7,7 @@ const Pagination = ({ loadMovieByPage }) => {
     const [pages, setPages] = useState([]);
     const [activePage, setActivePage] = useState(1);
 
-    const setVisiblePages = (pageNo = 1) => {
+    const setVisiblePages = useCallback((pageNo = 1) => {
         if (pageNo === pages[0] || pageNo === pages[pages.length - 1] || !pages.length) {
             // write a logic to generate currentPages dynamically based on totalPages, maxVisiblePages & activePage
             const maxResultSize = totalPages > maxVisiblePages ? maxVisiblePages : totalPages;
@@ -29,11 +29,11 @@ const Pagination = ({ loadMovieByPage }) => {
             setPages(currentPages);
         }
         
-    }
+    }, [pages]);
 
     useEffect(() => {
         setVisiblePages();
-    }, []);
+    }, [setVisiblePages]);
 
     const handleClick = (pageNo) => () => {
         loadMovieByPage(pageNo);

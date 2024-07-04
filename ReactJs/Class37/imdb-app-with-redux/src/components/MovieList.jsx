@@ -33,7 +33,7 @@ const MovieList = () => {
                 {
                     movies.map(movie => (
                         <div className="movie">
-                            <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
+                            <img alt="dummy" src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
                             {/* <a href="/movie-detail"><h2>{movie.original_title}</h2></a> */}
                             <Link to={`/movie-detail/${movie.id}`}><h2>{movie.original_title}</h2></Link>
                             {

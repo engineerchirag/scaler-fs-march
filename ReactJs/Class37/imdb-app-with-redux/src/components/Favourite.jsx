@@ -129,6 +129,7 @@ const Favourite = () => {
                   <tr>
                     <td>
                       <img
+                        alt="dummy"
                         width="50px"
                         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                       />

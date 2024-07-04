@@ -1,18 +1,14 @@
-import logo from "./logo.svg";
 import "./App.css";
 import MovieList from "./components/MovieList";
 import MovieDetail from "./components/MovieDetail";
 import {
   BrowserRouter,
-  createBrowserRouter,
   Navigate,
   Route,
-  RouterProvider,
   Routes,
 } from "react-router-dom";
 import Header from "./components/Header";
 import Favourite from "./components/Favourite";
-import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { init } from "./store/FavouriteStore";
@@ -36,7 +32,7 @@ function App() {
     if (persistedFavourites) {
       dispatch(init(JSON.parse(persistedFavourites)));
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="App">
