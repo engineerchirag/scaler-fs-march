@@ -1,0 +1,149 @@
+.favourite-wrapper {
+  padding: 40px;
+}
+
+.movielist-wrapper {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.movielist {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.movie {
+  width: 200px;
+  height: 250px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  position: relative;
+}
+
+.movielist-heading h1 {
+  text-align: center;
+}
+
+.movie img {
+  width: 100%;
+}
+
+.movie h2 {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  color: white;
+}
+
+.movie button {
+  position: absolute;
+  bottom: 15px;
+  left: 10px;
+}
+
+.movie-detail {
+  padding: 40px;
+}
+
+.movie-detail img {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  height: 60px;
+  padding: 10px 15px;
+  align-items: center;
+  background-color: cadetblue;
+  color: white;
+}
+
+.header ul {
+  display: flex;
+  gap: 15px;
+}
+
+.header ul li {
+  list-style: none;
+}
+
+.pagination {
+  display: flex;
+  margin: 30px 0;
+}
+
+.pagination .page-button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ccc;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination .page-button:hover {
+  background-color: #9d9d9d;
+}
+
+.pagination .page-button.active {
+  background-color: #a09f9f;
+}
+
+.favourite-section {
+  display: flex;
+  min-height: 400px;
+}
+
+.favourite-section .left-section {
+    width: 25%;
+    background-color: #9d9d9d;
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+}
+
+.favourite-section .right-section {
+    width: 75%; 
+    background-color: bisque;
+    padding: 15px;
+}
+
+.favourite-section .right-section .table {
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.favourite-section .right-section .table td, .favourite-section .right-section .table th{
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+}
+
+.favourite-section .right-section .table td, .favourite-section .right-section .table th span{
+  cursor: pointer;
+}
+
+.favourite-section .left-section .genres-section {
+  width: 150px;
+}
+
+.favourite-section .left-section .genres-section .genre {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.favourite-section .left-section .genres-section .genre.selected {
+  background-color: aquamarine;
+}
+
+.favourite-section .left-section .genres-section .genre:hover {
+  background-color: bisque;
+  cursor: pointer;
+}

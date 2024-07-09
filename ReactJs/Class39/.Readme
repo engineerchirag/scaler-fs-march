@@ -1,0 +1,13 @@
+Agenda:
+
+- Performance Overview
+- React Performance
+- Technique
+    - Code Splitting
+    - Dynamic Loading
+    - React Suspense
+    - Memoization 
+        - useMemo
+        - useCallback
+        - React.memo
+    - useRef
