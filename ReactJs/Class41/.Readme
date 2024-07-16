@@ -1,0 +1,25 @@
+Agenda:
+
+- Class component
+- Differences
+- Migration
+- Virtual DOM
+    - Real DOM vs Virtual DOM
+- Popular Interview Questions
+    - useRef
+    - useState
+    - Virtual DOM vs Real DOM
+    - useContext / Provider
+    - useReducer
+    - Redux 
+    - state vs props
+    - LifeCycle
+    - Component / JSX
+    - key
+    - custom hooks
+    - routing
+    - event / event delegation
+    - Synthetic events
+    - Perf: Code Splitting, Suspense/useLazy, useMemo, useCallback, React.memo
+    - useLayoutEffect, useImperativeHandle, useTransition
+    - Fragments <>...</>
