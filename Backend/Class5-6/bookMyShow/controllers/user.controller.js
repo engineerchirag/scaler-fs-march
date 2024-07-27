@@ -1,23 +1,21 @@
 import User from "../model/user.model.js";
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const getUserDetail = async (req, res) => {
-  const jwtToken = req.headers['jwttoken'];
-  console.log(jwtToken);
-
-  const userData = jwt.verify(jwtToken, '123456');
+  const jwtToken = req.headers["jwttoken"];
+  const userData = jwt.verify(jwtToken, process.env.jwt_secret_salt);
   if (userData) {
-    console.log('Email', userData);
-    const userInfo = await User.findOne( { email: userData.email });
+    console.log("Email", userData);
+    const userInfo = await User.findOne({ email: userData.email });
     return res.status(401).send({
       status: true,
-      ...userInfo
+      ...userInfo,
     });
   } else {
     return res.status(401).send({
       status: false,
-      message: "Please login in again!"
+      message: "Please login in again!",
     });
   }
 
@@ -53,28 +51,39 @@ export const deleteUser = async (req, res) => {
   res.status(200).send(deletedData);
 };
 
-
 export const login = async (req, res) => {
   const userDetail = req.body;
-  const user = await User.findOne({ email: userDetail.email}).select('password email');
+  const user = await User.findOne({ email: userDetail.email }).select(
+    "password email"
+  );
+
+  console.log(process.env.jwt_secret_salt);
 
   if (!userDetail.email || !userDetail.password) {
     return res.status(400).send({
       status: false,
-      message: "Please pass email and password"
+      message: "Please pass email and password",
     });
   }
 
-  if(user) {
-    const validPassword = await bcrypt.compare(userDetail.password, user.password);
+  if (user) {
+    const validPassword = await bcrypt.compare(
+      userDetail.password,
+      user.password
+    );
 
     if (validPassword) {
-      const jwtToken = jwt.sign({ 
-        "email": user.email,
-        
-      }, '123456', { expiresIn: '1d'});
+      const jwtToken = jwt.sign(
+        {
+          email: user.email,
+          id: user._id,
+          isOwner: user.isOwner
+        },
+        process.env.jwt_secret_salt,
+        { expiresIn: "1d" }
+      );
 
-      res.setHeader('jwtToken', jwtToken);
+      res.setHeader("jwtToken", jwtToken);
 
       return res.status(200).send({
         status: true,
@@ -83,13 +92,13 @@ export const login = async (req, res) => {
     } else {
       return res.status(401).send({
         status: false,
-        message: "Email or password is incorrect"
-      });  
+        message: "Email or password is incorrect",
+      });
     }
   } else {
     return res.status(401).send({
       status: false,
-      message: "Email or password is incorrect"
+      message: "Email or password is incorrect",
     });
   }
-}
+};
