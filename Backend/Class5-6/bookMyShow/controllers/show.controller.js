@@ -49,7 +49,7 @@ export const deleteShow = async (req, res) => {
 
 export const getShowById = async (req, res) => {
   try {
-    const showDetail = await Show.find({ _id: req.params.showId }).populate('theatre');
+    const showDetail = await Show.find({ _id: req.params.showId }).populate(['theatre', 'movie']);
     res.send(showDetail);
   } catch (e) {
     console.log(e);

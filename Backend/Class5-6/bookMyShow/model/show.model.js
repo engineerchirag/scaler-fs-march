@@ -40,6 +40,6 @@ const showSchema = new Schema(
   { timestamps: true }
 );
 
-const Show = model("show", showSchema);
+const Show = model("shows", showSchema);
 
 export default Show;
