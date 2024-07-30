@@ -54,7 +54,7 @@ export const deleteUser = async (req, res) => {
 export const login = async (req, res) => {
   const userDetail = req.body;
   const user = await User.findOne({ email: userDetail.email }).select(
-    "password email"
+    "password email isAdmin"
   );
 
   console.log(process.env.jwt_secret_salt);
@@ -77,7 +77,7 @@ export const login = async (req, res) => {
         {
           email: user.email,
           id: user._id,
-          isOwner: user.isOwner
+          isAdmin: user.isAdmin
         },
         process.env.jwt_secret_salt,
         { expiresIn: "1d" }

@@ -8,7 +8,7 @@ const movieSchema = new Schema(
       trim: true,
       minLength: [10, "Min 10 characters are required"],
     },
-    deescription: {
+    description: {
       type: String,
       required: true,
     },
