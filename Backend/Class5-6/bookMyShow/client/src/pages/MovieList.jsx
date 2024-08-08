@@ -1,50 +1,70 @@
-import React, { useState } from 'react';
-import Modal from 'react-modal';
-
-const moviesData = [
-  // Example movie data
-  {
-    poster: 'https://via.placeholder.com/50',
-    title: 'Inception',
-    description: 'A mind-bending thriller',
-    genres: 'Action, Sci-Fi',
-    languages: 'English',
-    releaseDate: '2010-07-16',
-    duration: '148 min',
-  },
-];
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import Modal from "react-modal";
+import { jtwToken } from '../constants/authToken';
 
 const MovieList = () => {
-  const [movies, setMovies] = useState(moviesData);
+  const [movies, setMovies] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newMovie, setNewMovie] = useState({
-    poster: '',
-    title: '',
-    description: '',
-    genres: '',
-    languages: '',
-    releaseDate: '',
-    duration: '',
+    poster: "",
+    title: "",
+    description: "",
+    genre: [],
+    language: [],
+    releaseData: "",
+    duration: "",
   });
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    if (name === "genre" || name === "language") {
+      value = value.split(",");
+    }
     setNewMovie({ ...newMovie, [name]: value });
   };
 
-  const handleAddMovie = () => {
-    setMovies([...movies, newMovie]);
-    setNewMovie({
-      poster: '',
-      title: '',
-      description: '',
-      genres: '',
-      languages: '',
-      releaseDate: '',
-      duration: '',
-    });
-    setModalIsOpen(false);
+  const handleAddMovie = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:5010/api/movie", {
+      method: "POST",
+      body: JSON.stringify(newMovie),
+      headers: {
+        "Content-Type": "application/json",
+        jwttoken: jtwToken
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.statusCode === 401) {
+          return;
+        }
+        setMovies([...movies, newMovie]);
+        setNewMovie({
+          poster: "",
+          title: "",
+          description: "",
+          genre: [],
+          language: [],
+          releaseData: "",
+          duration: "",
+        });
+        setModalIsOpen(false);
+      })
+      .catch((e) => {
+        window.alert(e.message);
+      });
   };
+
+  useEffect(() => {
+    fetch("http://localhost:5010/api/movie", {
+      headers: {
+        jwttoken: jtwToken
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setMovies(data));
+  }, []);
 
   return (
     <div className="min-h-screen p-4 bg-gray-100">
@@ -68,10 +88,14 @@ const MovieList = () => {
             <tr>
               <th className="py-2 px-4 border-b border-gray-200">Poster</th>
               <th className="py-2 px-4 border-b border-gray-200">Title</th>
-              <th className="py-2 px-4 border-b border-gray-200">Description</th>
+              <th className="py-2 px-4 border-b border-gray-200">
+                Description
+              </th>
               <th className="py-2 px-4 border-b border-gray-200">Genres</th>
               <th className="py-2 px-4 border-b border-gray-200">Languages</th>
-              <th className="py-2 px-4 border-b border-gray-200">Release Date</th>
+              <th className="py-2 px-4 border-b border-gray-200">
+                Release Date
+              </th>
               <th className="py-2 px-4 border-b border-gray-200">Duration</th>
             </tr>
           </thead>
@@ -79,14 +103,30 @@ const MovieList = () => {
             {movies.map((movie, index) => (
               <tr key={index}>
                 <td className="py-2 px-4 border-b border-gray-200">
-                  <img src={movie.poster} alt={movie.title} className="w-12 h-12" />
+                  <img
+                    src={movie.poster}
+                    alt={movie.title}
+                    className="w-12 h-12"
+                  />
                 </td>
-                <td className="py-2 px-4 border-b border-gray-200">{movie.title}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{movie.description}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{movie.genres}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{movie.languages}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{movie.releaseDate}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{movie.duration}</td>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  {movie.title}
+                </td>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  {movie.description}
+                </td>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  {movie.genre?.join(", ")}
+                </td>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  {movie.language?.join(", ")}
+                </td>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  {moment(movie.releaseData).format("DD-MM-YYYY")}
+                </td>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  {movie.duration} min
+                </td>
               </tr>
             ))}
           </tbody>
@@ -103,7 +143,10 @@ const MovieList = () => {
         <h2 className="text-2xl font-bold mb-4">Add Movie</h2>
         <form onSubmit={handleAddMovie}>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="poster">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="poster"
+            >
               Poster URL
             </label>
             <input
@@ -117,7 +160,10 @@ const MovieList = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="title"
+            >
               Title
             </label>
             <input
@@ -131,7 +177,10 @@ const MovieList = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="description"
+            >
               Description
             </label>
             <textarea
@@ -144,48 +193,60 @@ const MovieList = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="genres">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="genre"
+            >
               Genres
             </label>
             <input
               type="text"
-              id="genres"
-              name="genres"
-              value={newMovie.genres}
+              id="genre"
+              name="genre"
+              value={newMovie.genre}
               onChange={handleInputChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Genres"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="languages">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="language"
+            >
               Languages
             </label>
             <input
               type="text"
-              id="languages"
-              name="languages"
-              value={newMovie.languages}
+              id="language"
+              name="language"
+              value={newMovie.language}
               onChange={handleInputChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Languages"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="releaseDate">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="releaseDate"
+            >
               Release Date
             </label>
             <input
               type="date"
               id="releaseDate"
-              name="releaseDate"
-              value={newMovie.releaseDate}
+              name="releaseData"
+              value={newMovie.releaseData}
               onChange={handleInputChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="duration">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="duration"
+            >
               Duration
             </label>
             <input
@@ -219,7 +280,6 @@ const MovieList = () => {
       </Modal>
     </div>
   );
-}
+};
 
 export default MovieList;
-

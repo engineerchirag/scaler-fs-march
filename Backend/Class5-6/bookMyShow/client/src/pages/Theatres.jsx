@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 const theatreData = [
   {
@@ -26,6 +27,7 @@ const theatreData = [
 
 const Theatres = () => {
   const [theatres] = useState(theatreData);
+  const { movieId } = useParams;
 
   return (
     <div className="min-h-screen p-4 bg-gray-100">
@@ -41,12 +43,14 @@ const Theatres = () => {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {theatre.shows.map((show, index) => (
+                    <Link to={`/movie/${movieId}/theatres/${theatre._id}/shows/${show._id}`}>
                     <button
                       key={index}
                       className="h-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline align-middle"
                     >
                       {show.time}
                     </button>
+                    </Link>
                   ))}
                 </div>
               </div>

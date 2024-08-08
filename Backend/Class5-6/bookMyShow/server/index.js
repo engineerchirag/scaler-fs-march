@@ -4,11 +4,14 @@ import TheatreRoutes from './routes/theatre.route.js';
 import MovieRoutes from './routes/movie.route.js';
 import ShowRoutes from './routes/show.route.js';
 import connectToDB from './database/mongoDb.js';
+import cors from 'cors';
 import 'dotenv/config';
 
 const app = express();
 
 app.set('view engine', 'ejs');
+
+app.use(cors());
 
 app.use(express.json());
 

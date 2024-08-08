@@ -1,19 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useNavigate, useLocation } from 'react-router-dom';
-
-const theatresData = [
-  // Example theatre data
-  {
-    name: 'Grand Theatre',
-    location: '123 Main St, Anytown',
-    phone: '123-456-7890',
-    email: 'info@grandtheatre.com',
-  },
-];
+import { jtwToken } from '../constants/authToken';
 
 const TheatreList = () => {
-  const [theatres, setTheatres] = useState(theatresData);
+  const [theatres, setTheatres] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newTheatre, setNewTheatre] = useState({
     name: '',
@@ -30,16 +21,41 @@ const TheatreList = () => {
     setNewTheatre({ ...newTheatre, [name]: value });
   };
 
-  const handleAddTheatre = () => {
-    setTheatres([...theatres, newTheatre]);
-    setNewTheatre({
-      name: '',
-      location: '',
-      phone: '',
-      email: '',
-    });
-    setModalIsOpen(false);
+  const handleAddTheatre = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:5010/api/theatre", {
+      method: "POST",
+      body: JSON.stringify(newTheatre),
+      headers: {
+        "Content-Type": "application/json",
+        jwttoken: jtwToken
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTheatres([...theatres, newTheatre]);
+        setNewTheatre({
+          name: '',
+          location: '',
+          phone: '',
+          email: '',
+        });
+        setModalIsOpen(false);
+      })
+      .catch((e) => {
+        window.alert(e.message);
+      });
   };
+
+  useEffect(() => {
+    fetch("http://localhost:5010/api/theatre", {
+      headers: {
+        jwttoken: jtwToken
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setTheatres(data));
+  }, []);
 
   return (
     <div className="min-h-screen p-4 bg-gray-100">
@@ -82,7 +98,7 @@ const TheatreList = () => {
                 <td className="py-2 px-4 border-b border-gray-200">{theatre.email}</td>
                 <td className="py-2 px-4 border-b border-gray-200">
                   <button
-                    onClick={() => navigate(`/owner/theatres/${index}/shows`)}
+                    onClick={() => navigate(`/owner/theatres/${theatre._id}/shows`)}
                     className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   >
                     Shows

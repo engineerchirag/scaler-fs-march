@@ -1,29 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import { jtwToken } from '../constants/authToken';
+import moment from "moment";
 
-const showsData = [
-  // Example shows data
-  {
-    name: 'Morning Show',
-    movie: 'Movie 1',
-    date: '2024-08-01',
-    time: '10:00 AM',
-    totalSeats: 100,
-    price: '$10',
-  },
-];
 
 const ShowsList = () => {
-  const [shows, setShows] = useState(showsData);
+  const [shows, setShows] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const { theatreId } = useParams();
+  const [movies, setMovies] = useState([]);
   const [newShow, setNewShow] = useState({
     name: '',
     movie: '',
+    theatre: theatreId,
     date: '',
     time: '',
     totalSeats: '',
-    price: '',
+    ticketPrice: '',
   });
 
   const location = useLocation();
@@ -33,18 +27,53 @@ const ShowsList = () => {
     setNewShow({ ...newShow, [name]: value });
   };
 
-  const handleAddShow = () => {
-    setShows([...shows, newShow]);
-    setNewShow({
-      name: '',
-      movie: '',
-      date: '',
-      time: '',
-      totalSeats: '',
-      price: '',
-    });
-    setModalIsOpen(false);
+  const handleAddShow = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:5010/api/show", {
+      method: "POST",
+      body: JSON.stringify(newShow),
+      headers: {
+        "Content-Type": "application/json",
+        jwttoken: jtwToken
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setShows([...shows, newShow]);
+        setNewShow({
+          name: '',
+          movie: '',
+          date: '',
+          time: '',
+          theatre: theatreId,
+          totalSeats: '',
+          ticketPrice: '',
+        });
+        setModalIsOpen(false);
+      })
+      .catch((e) => {
+        window.alert(e.message);
+      });
   };
+
+  useEffect(() => {
+    fetch(`http://localhost:5010/api/show?theatre=${theatreId}`, {
+      headers: {
+        jwttoken: jtwToken
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setShows(data));
+
+    fetch("http://localhost:5010/api/movie", {
+        headers: {
+          jwttoken: jtwToken
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => setMovies(data));
+  }, []);
+
 
   return (
     <div className="min-h-screen p-4 bg-gray-100">
@@ -83,11 +112,11 @@ const ShowsList = () => {
             {shows.map((show, index) => (
               <tr key={index}>
                 <td className="py-2 px-4 border-b border-gray-200">{show.name}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{show.movie}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{show.date}</td>
+                <td className="py-2 px-4 border-b border-gray-200">{movies.find(movie =>  movie._id === show.movie)?.title}</td>
+                <td className="py-2 px-4 border-b border-gray-200">{moment(show.date).format('DD-MM-YYYY')}</td>
                 <td className="py-2 px-4 border-b border-gray-200">{show.time}</td>
                 <td className="py-2 px-4 border-b border-gray-200">{show.totalSeats}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{show.price}</td>
+                <td className="py-2 px-4 border-b border-gray-200">{show.ticketPrice}</td>
                 {location.pathname.startsWith('/owner') && (
                   <td className="py-2 px-4 border-b border-gray-200 flex space-x-2">
                     <button
@@ -143,7 +172,12 @@ const ShowsList = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="">Select Movie</option>
-              <option value="Movie 1">Movie 1</option>
+              {
+                movies.map((movie) => (
+                  <option value={movie._id}>{movie.title}</option>
+                ))
+              }
+              
               <option value="Movie 2">Movie 2</option>
               {/* Add more movie options here */}
             </select>
@@ -189,14 +223,14 @@ const ShowsList = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="ticketPrice">
               Price
             </label>
             <input
               type="text"
-              id="price"
-              name="price"
-              value={newShow.price}
+              id="ticketPrice"
+              name="ticketPrice"
+              value={newShow.ticketPrice}
               onChange={handleInputChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Price"

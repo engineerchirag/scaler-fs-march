@@ -1,27 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
+import { jtwToken } from '../constants/authToken';
+import { Link } from 'react-router-dom';
 
-const movieData = [
-  // Example movie data
-  {
-    id: 1,
-    title: 'Movie 1',
-    image: 'https://via.placeholder.com/150',
-    languages: ['English', 'Spanish'],
-  },
-  {
-    id: 2,
-    title: 'Movie 2',
-    image: 'https://via.placeholder.com/150',
-    languages: ['French', 'German'],
-  },
-  // Add more movie objects here
-];
 
 const itemsPerPage = 9;
 
 const Home = () => {
-  const [movies] = useState(movieData);
+  const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [search, setSearch] = useState('');
 
@@ -38,6 +24,16 @@ const Home = () => {
     (currentPage + 1) * itemsPerPage
   );
 
+  useEffect(() => {
+    fetch("http://localhost:5010/api/movie", {
+      headers: {
+        jwttoken: jtwToken
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setMovies(data));
+  }, []);
+
   return (
     <div className="min-h-screen p-4 bg-gray-100">
       <div className="max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-lg">
@@ -51,13 +47,15 @@ const Home = () => {
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {displayMovies.map((movie) => (
-            <div key={movie.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-              <img src={movie.image} alt={movie.title} className="w-full h-48 object-cover" />
+            <Link to={`/movie/${movie._id}`}>
+              <div key={movie._id} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <img src={movie.poster} alt={movie.title} className="w-full h-48 object-cover" />
               <div className="p-4">
                 <h3 className="text-xl font-semibold mb-2">{movie.title}</h3>
-                <p className="text-gray-600">{movie.languages.join(', ')}</p>
+                <p className="text-gray-600">{movie.language.join(', ')}</p>
               </div>
             </div>
+            </Link>
           ))}
         </div>
         <div className="mt-6 flex justify-center">

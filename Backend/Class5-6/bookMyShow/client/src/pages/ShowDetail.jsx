@@ -25,10 +25,8 @@ const showData = [
 
 const ShowPage = () => {
   const { showId } = useParams();
-  const [show, setShow] = useState(showData.find((s) => s.id === parseInt(showId)));
+  const [show, setShow] = useState(showData[0]);
   const [selectedSeats, setSelectedSeats] = useState(1);
-
-  if (!show) return <p>Show not found.</p>;
 
   const handleSeatChange = (e) => {
     setSelectedSeats(Number(e.target.value));
