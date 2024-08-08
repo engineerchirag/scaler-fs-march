@@ -62,6 +62,20 @@ export const getShowById = async (req, res) => {
 
 export const getShowByFilter = async (req, res) => {
   try {
+    const { movie, theatre, date } = req.query;
+
+    const filter = {};
+    if (movie) {
+        filter.movie = movie;   
+    }
+    if(theatre) {
+        filter.theatre = theatre;
+    }
+    if (date) {
+        filter.date = new Date(date);
+    }
+    const showDetails = await Show.find(filter);
+    res.send(showDetails);
   } catch (e) {
     res.status(500).send({
       success: false,
