@@ -49,7 +49,7 @@ export const deleteShow = async (req, res) => {
 
 export const getShowById = async (req, res) => {
   try {
-    const showDetail = await Show.find({ _id: req.params.showId }).populate(['theatre', 'movie']);
+    const showDetail = await Show.findOne({ _id: req.params.showId }).populate(['theatre', 'movie']);
     res.send(showDetail);
   } catch (e) {
     console.log(e);
@@ -74,7 +74,7 @@ export const getShowByFilter = async (req, res) => {
     if (date) {
         filter.date = new Date(date);
     }
-    const showDetails = await Show.find(filter);
+    const showDetails = await Show.find(filter).populate(['theatre']);
     res.send(showDetails);
   } catch (e) {
     res.status(500).send({

@@ -1,31 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { jtwToken } from '../constants/authToken';
 
-const showData = [
-  {
-    id: 1,
-    theatreName: 'Theatre 1',
-    movieName: 'Movie 1',
-    movieDuration: '2h 15m',
-    showTiming: '10:00 AM',
-    totalSeats: 100,
-    availableSeats: 45,
-  },
-  {
-    id: 2,
-    theatreName: 'Theatre 2',
-    movieName: 'Movie 2',
-    movieDuration: '1h 45m',
-    showTiming: '01:00 PM',
-    totalSeats: 120,
-    availableSeats: 30,
-  },
-  // Add more show objects here
-];
 
 const ShowPage = () => {
   const { showId } = useParams();
-  const [show, setShow] = useState(showData[0]);
+  const [show, setShow] = useState({});
   const [selectedSeats, setSelectedSeats] = useState(1);
 
   const handleSeatChange = (e) => {
@@ -37,15 +17,27 @@ const ShowPage = () => {
     alert(`Booked ${selectedSeats} seat(s) for ${show.movieName}`);
   };
 
+  useEffect(() => { 
+    fetch(`http://localhost:5010/api/show/${showId}`, {
+      headers: {
+        jwttoken: jtwToken
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setShow({ ...data, availableSeats: data.totalSeats - data.bookedSeats?.length});
+      });
+  }, []);
+
   return (
     <div className="min-h-screen p-4 bg-gray-100">
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-6">Show Details</h2>
         <div className="mb-6">
-          <h3 className="text-xl font-semibold mb-2">Theatre: {show.theatreName}</h3>
-          <p className="text-gray-700 mb-2"><strong>Movie:</strong> {show.movieName}</p>
-          <p className="text-gray-700 mb-2"><strong>Duration:</strong> {show.movieDuration}</p>
-          <p className="text-gray-700 mb-2"><strong>Show Time:</strong> {show.showTiming}</p>
+          <h3 className="text-xl font-semibold mb-2">Theatre: {show.theatre?.name}</h3>
+          <p className="text-gray-700 mb-2"><strong>Movie:</strong> {show.movie?.title}</p>
+          <p className="text-gray-700 mb-2"><strong>Duration:</strong> {show.movie?.duration} min</p>
+          <p className="text-gray-700 mb-2"><strong>Show Time:</strong> {show.time}</p>
           <p className="text-gray-700 mb-2"><strong>Total Seats:</strong> {show.totalSeats}</p>
           <p className="text-gray-700 mb-6"><strong>Available Seats:</strong> {show.availableSeats}</p>
         </div>
