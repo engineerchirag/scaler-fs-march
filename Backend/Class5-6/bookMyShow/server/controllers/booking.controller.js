@@ -1,3 +1,4 @@
+import { transporter } from "../index.js";
 import Booking from "../model/booking.model.js";
 import Stripe from "stripe";
 const stripe = new Stripe(
@@ -50,11 +51,21 @@ export const createBooking = async (req, res) => {
     booking.user = req.user.id;
     await booking.save();
 
+    const info = await transporter.sendMail({
+        from: '"Chirag Goel" <xyz@gmail.com>', // sender address
+        to: "x@gmail.com, y@gmail.com", // list of receivers
+        subject: "Booking is confirmed", // Subject line
+        text: "Hello world?", // plain text body
+        html: "<b>Hello world?</b>", // html body
+      });
+
     res.send({
       success: true,
       message: "Booking is confirm",
     });
+
   } catch (e) {
+    console.log(e);
     res.status(500).send({
       success: false,
       message: e.message,
