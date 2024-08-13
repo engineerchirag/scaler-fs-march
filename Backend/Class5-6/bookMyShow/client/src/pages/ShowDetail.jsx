@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { jtwToken } from '../constants/authToken';
+import { stripePromise } from '../App';
+import { Elements } from "@stripe/react-stripe-js";
+
+import CheckoutForm from "./CheckoutForm";
 
 
 const ShowPage = () => {
   const { showId } = useParams();
   const [show, setShow] = useState({});
   const [selectedSeats, setSelectedSeats] = useState(1);
+  const [clientSecret, setClientSecret] = useState("");
+
+  const appearance = {
+    theme: 'stripe',
+  };
 
   const handleSeatChange = (e) => {
     setSelectedSeats(Number(e.target.value));
@@ -14,7 +23,14 @@ const ShowPage = () => {
 
   const handleBookSeats = () => {
     // Implement booking logic here
-    alert(`Booked ${selectedSeats} seat(s) for ${show.movieName}`);
+    // Create PaymentIntent as soon as the page loads
+    fetch("http://localhost:5010/api/booking/get-payment-secret", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", jwttoken: jtwToken },
+      body: JSON.stringify({ seats: selectedSeats, price: show.ticketPrice   }),
+    })
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
   };
 
   useEffect(() => { 
@@ -38,6 +54,7 @@ const ShowPage = () => {
           <p className="text-gray-700 mb-2"><strong>Movie:</strong> {show.movie?.title}</p>
           <p className="text-gray-700 mb-2"><strong>Duration:</strong> {show.movie?.duration} min</p>
           <p className="text-gray-700 mb-2"><strong>Show Time:</strong> {show.time}</p>
+          <p className="text-gray-700 mb-2"><strong>Ticket Price:</strong>Rs. {show.ticketPrice}</p>
           <p className="text-gray-700 mb-2"><strong>Total Seats:</strong> {show.totalSeats}</p>
           <p className="text-gray-700 mb-6"><strong>Available Seats:</strong> {show.availableSeats}</p>
         </div>
@@ -62,6 +79,15 @@ const ShowPage = () => {
             Book Seat
           </button>
         </div>
+
+        {clientSecret && (
+            <Elements options={{
+              clientSecret,
+              appearance,
+            }} stripe={stripePromise}>
+              <CheckoutForm />
+            </Elements>
+          )}
       </div>
     </div>
   );

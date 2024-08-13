@@ -10,6 +10,8 @@ import MovieDetail from './pages/MovieDetail';
 import Theatres from './pages/Theatres';
 import ShowPage from './pages/ShowDetail';
 import Navbar from './components/Navbar';
+import { loadStripe } from '@stripe/stripe-js';
+export const stripePromise = loadStripe("pk_test_51LWoczSHyBJaG3xBvWVcXs0AesbSw429djf2w0ZiiKQINDObgVjhGPVRpygwS6UWI3oWwebwb65GUdU5y5ui9PnM009QPQF0nU");
 
 function App() {
   return (
