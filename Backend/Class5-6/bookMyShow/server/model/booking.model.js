@@ -10,9 +10,10 @@ const bookingSchema = new Schema(
     transactionId: {
       type: String,
       required: true,
+      unique: true
     },
     seats: {
-      type: [String],
+      type: Number,
       required: true,
     },
     show: {
