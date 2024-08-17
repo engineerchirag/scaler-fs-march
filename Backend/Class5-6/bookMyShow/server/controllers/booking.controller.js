@@ -2,7 +2,7 @@ import { transporter } from "../index.js";
 import Booking from "../model/booking.model.js";
 import Stripe from "stripe";
 const stripe = new Stripe(
-  "sk_test_51LWoczSHyBJaG3xB0ZdWN0NkzwDlgYsj1r06I5P7tIxk49QFzIkmwaL28tJHB8PsyZXc2TcN6zMxw0FMXCxYRRRd00rz1ngsX5"
+  process.env.stripe_secret_key
 );
 
 export const getPaymentClientSecret = async (req, res) => {
