@@ -33,6 +33,7 @@ app.use('/api/movie', MovieRoutes);
 app.use('/api/show', ShowRoutes);
 app.use('/api/booking', BookingRoutes);
 
+
 app.all('*', (req, res) => {
     res.status(404).send("Page Not Found!");
 })
