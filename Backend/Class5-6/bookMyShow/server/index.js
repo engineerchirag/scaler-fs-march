@@ -37,7 +37,8 @@ app.all('*', (req, res) => {
     res.status(404).send("Page Not Found!");
 })
 
-app.listen(5010, () => {
+const PORT = process.env.port || 8080;
+app.listen(PORT, () => {
     console.log('Server started at http://localhost:5010');
     connectToDB();
 })
