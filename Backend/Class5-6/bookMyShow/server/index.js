@@ -8,6 +8,9 @@ import connectToDB from './database/mongoDb.js';
 import cors from 'cors';
 import nodemailer  from 'nodemailer';
 import 'dotenv/config';
+import { Server } from 'socket.io';
+import http from 'http';
+
 
 export const transporter = nodemailer.createTransport({
     host: "smtp.mandrillapp.com",
@@ -38,8 +41,32 @@ app.all('*', (req, res) => {
     res.status(404).send("Page Not Found!");
 })
 
-const PORT = process.env.port || 8080;
-app.listen(PORT, () => {
-    console.log('Server started at http://localhost:5010');
+const PORT = process.env.port || 5001;
+// app.listen(PORT, () => {
+//     console.log(`Server started at http://localhost:${PORT}`);
+//     connectToDB();
+// })
+
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+      origin: "http://localhost:3001"
+    }
+  });
+
+io.on('connection', (socket) => {
+    console.log(socket.id);
+    socket.on('message', (msg) => {
+        console.log(msg);
+        io.emit('message', msg);
+    })
+    socket.on('message2', (msg) => {
+        console.log(msg);
+        io.emit('message2', msg);
+    })
+})
+
+server.listen(PORT, () => {
+    console.log(`Server started at http://localhost:${PORT}`);
     connectToDB();
 })
